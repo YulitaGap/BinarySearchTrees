@@ -1,63 +1,19 @@
 from btnode import Node
-
+from random import shuffle
 
 class Tree:
-    def __init__(self, root):
-        self.key = root
-        self.left_child = None
-        self.right_child = None
+    """
+    Class for Tree representation
+    """
+    def __init__(self, board, cell=None):
+        self.root = Node(board, cell)
+        self.states = []
 
-
-    def insert_left(self, new_node):
-        if self.left_child == None:
-            self.left_child = Tree(new_node)
-        else:
-            t = Tree(new_node)
-            t.left_child = self.left_child
-            self.left_child = t
-
-
-    def insert_right(self, new_node):
-        if self.right_child == None:
-            self.right_child = Tree(new_node)
-        else:
-            t = Tree(new_node)
-            t.right_child = self.right_child
-            self.right_child = t
-
-
-    def get_right_child(self):
-        return self.right_child
-
-
-    def get_left_child(self):
-        return self.left_child
-
-
-    def set_root_val(self, obj):
-        self.key = obj
-
-
-    def get_root_val(self):
-        return self.key
-
-    def preorder(self):
-        print(self.key)
-        if self.left_child:
-            self.left_child.preorder()
-        if self.right_child:
-            self.right_child.preorder()
-
-    def inorder(self):
-        if self.left_child:
-            self.left_child.inorder()
-        print(self.key)
-        if self.right_child:
-            self.right_child.inorder()
-
-    def postorder(self):
-        if self.left_child:
-            self.left_child.postorder()
-        if self.right_child:
-            self.right_child.postorder()
-        print(self.key)
+    def clear(self):
+        self.root = None
+    
+    def move(self, where):
+        new_board = self.root.move(where)
+        new_tree = Tree(new_board)
+        new_tree.root.cell = None
+        return new_tree
