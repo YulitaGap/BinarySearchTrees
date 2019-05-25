@@ -4,7 +4,7 @@ import random
 
 class Tree:
     """
-    Class for Tree representation.
+    Class for Tree representation
     """
     def __init__(self, board, cell=None):
         self.root = Node(board, cell)
@@ -36,8 +36,9 @@ class Tree:
         :return: int
         """
         curr_state = self.root.board.has_winner()
-        if curr_state != self.root.board.NOT_FINISHED and curr_state != self.root.board.DRAW:
-            self.root.result = curr_state
+        if curr_state != self.root.board.NOT_FINISHED:
+            if curr_state != self.root.board.DRAW:
+                self.root.result = curr_state
         else:
             way_value = []
             for state in self.states:
@@ -52,7 +53,7 @@ class Tree:
         """
         Choosing best move on board on counted way values.
         :param optimal: subtree
-        :return: tuple
+        :return:
         """
         self.form_tree()
         self.count_state()
@@ -63,30 +64,26 @@ class Tree:
         return optimal.root.cell
 
     def __iter__(self):
-        """
-        Iteration process realization.
-        """
+        """ Realization of iteration process. """
         return self.states.__iter__()
 
     def __len__(self):
-        """
-        Counting length by recursion realization.
-        """
+        """ Realization of recursive length calculating process. """
         def recurse(tree):
-            if tree.states is False:
+            if not tree.states:
                 return 0
             else:
-                return max([recurse(elem) for elem in tree.games]) + 1
+                return 1 + max([recurse(elem) for elem in tree.states])
 
         return recurse(self)
 
     def move(self, move_cell):
         """
-        Returns a tree after  move to inputted cell.
+        Changes a board according to the move.
         :param move_cell: tuple
         :return: Tree
         """
         renewed_board = self.root.move(move_cell)
         renewed_tree = Tree(renewed_board)
         renewed_tree.root.cell = None
-        return renewed_tree 
+        return renewed_tree  
